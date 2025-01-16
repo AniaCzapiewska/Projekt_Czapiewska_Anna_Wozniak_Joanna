@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Dodaj Markę Samochodu</title>
+</head>
+<body>
+<h1>Dodaj Nową Markę Samochodu</h1>
+<form th:action="@{/carbrands/save}" th:object="${CarBrand}" method="post">
+    <label for="name">Nazwa Marki:</label>
+    <input type="text" id="name" th:field="*{name}" placeholder="Wprowadź nazwę marki" required/>
+    <br/>
+    <button type="submit">Zapisz</button>
+</form>
+<a href="/carbrands">Powrót do listy marek samochodów</a>
+</body>
+</html>
