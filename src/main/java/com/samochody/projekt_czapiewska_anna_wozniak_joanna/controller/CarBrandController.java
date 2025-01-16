@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 public class CarBrandController {
 
     private final CarBrandService carBrandService;
-
+//cokolwiek
     public CarBrandController(CarBrandService carBrandService) {
         this.carBrandService = carBrandService;
     }
