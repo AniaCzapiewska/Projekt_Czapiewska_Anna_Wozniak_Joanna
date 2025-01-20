@@ -2,8 +2,10 @@ package com.samochody.projekt_czapiewska_anna_wozniak_joanna.controller;
 
 import com.samochody.projekt_czapiewska_anna_wozniak_joanna.model.CarBrand;
 import com.samochody.projekt_czapiewska_anna_wozniak_joanna.service.CarBrandService;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -11,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 public class CarBrandController {
 
     private final CarBrandService carBrandService;
-//cokolwiek
+
     public CarBrandController(CarBrandService carBrandService) {
         this.carBrandService = carBrandService;
     }
@@ -32,7 +34,12 @@ public class CarBrandController {
 
     // Zapisz nową markę
     @PostMapping("/save")
-    public String save(@ModelAttribute CarBrand carBrand) {
+    public String save(@Valid @ModelAttribute CarBrand carBrand, BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            // Jeśli występują błędy walidacji, wróć do formularza z komunikatami błędów
+            model.addAttribute("CarBrand", carBrand);
+            return "carbrands/form";
+        }
         carBrandService.save(carBrand);
         return "redirect:/carbrands";  // Przekierowanie po zapisaniu
     }
