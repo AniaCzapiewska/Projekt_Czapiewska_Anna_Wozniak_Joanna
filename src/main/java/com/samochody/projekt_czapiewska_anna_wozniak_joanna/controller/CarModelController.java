@@ -2,8 +2,10 @@ package com.samochody.projekt_czapiewska_anna_wozniak_joanna.controller;
 
 import com.samochody.projekt_czapiewska_anna_wozniak_joanna.model.CarModel;
 import com.samochody.projekt_czapiewska_anna_wozniak_joanna.service.CarModelService;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -32,7 +34,12 @@ public class CarModelController {
 
     // Zapisz nowy model
     @PostMapping("/save")
-    public String save(@ModelAttribute CarModel carModel) {
+    public String save(@Valid @ModelAttribute CarModel carModel, BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            // Jeśli występują błędy walidacji, wróć do formularza z komunikatami błędów
+            model.addAttribute("CarModel", carModel);
+            return "carmodels/form";
+        }
         carModelService.save(carModel);
         return "redirect:/carmodels";  // Przekierowanie po zapisaniu
     }
