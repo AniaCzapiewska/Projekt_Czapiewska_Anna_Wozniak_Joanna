@@ -1,5 +1,4 @@
-package com.samochody.projekt_czapiewska_anna_wozniak_joanna.controller;
-
+package com.samochody.projekt_czapiewska_anna_wozniak_joanna.model;
 import com.samochody.projekt_czapiewska_anna_wozniak_joanna.model.CarBrand;
 import com.samochody.projekt_czapiewska_anna_wozniak_joanna.service.CarBrandService;
 import jakarta.validation.Valid;
@@ -7,30 +6,64 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
-@Controller
-@RequestMapping("/carbrands")
-public class CarBrandController {
+@Entity
+public class CarModel {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
 
     private final CarBrandService carBrandService;
 
     public CarBrandController(CarBrandService carBrandService) {
         this.carBrandService = carBrandService;
+
+    @NotBlank(message = "{carmodel.name.notblank}")
+    @Size(min = 1, max = 25, message = "{carmodel.name.size}")
+    private String name;
+
+    private Integer car_year;
+
+    @NotNull(message = "{carmodel.carbrand.notnull}")
+    @ManyToOne
+    @JoinColumn(name = "car_brand_id")
+    private CarBrand carBrand;
+
+    // Konstruktor bezargumentowy
+    public CarModel() {
     }
 
-    // Pobierz listę wszystkich marek
-    @GetMapping
-    public String listCarBrands(Model model) {
-        model.addAttribute("carbrands", carBrandService.findAll());
-        return "carbrands/list";  // Ścieżka do widoku listy
+    // Gettery i Settery
+    public Long getId() {
+        return id;
     }
 
-    // Formularz do tworzenia nowej marki
-    @GetMapping("/create")
-    public String createForm(Model model) {
-        model.addAttribute("CarBrand", new CarBrand());
-        return "carbrands/form";  // Ścieżka do formularza
+    public void setId(Long id) {
+        this.id = id;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+
+    }
+
+    public Integer getcar_yearr() {
+        return car_year;
+    }
+
+    public void setcar_year(Integer car_year) {
+        this.car_year = car_year;
+    }
+
 
     // Zapisz nową markę
     @PostMapping("/save")
@@ -42,12 +75,12 @@ public class CarBrandController {
         }
         carBrandService.save(carBrand);
         return "redirect:/carbrands";  // Przekierowanie po zapisaniu
+
+    public CarBrand getCarBrand() {
+
     }
 
-    // Usuń markę po ID
-    @GetMapping("/delete/{id}")
-    public String delete(@PathVariable Long id) {
-        carBrandService.deleteById(id);
-        return "redirect:/carbrands";  // Przekierowanie po usunięciu
+    public void setCarBrand(CarBrand carBrand) {
+        this.carBrand = carBrand;
     }
 }
