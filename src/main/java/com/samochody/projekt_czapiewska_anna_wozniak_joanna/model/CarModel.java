@@ -1,18 +1,26 @@
 package com.samochody.projekt_czapiewska_anna_wozniak_joanna.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 @Entity
 public class CarModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String name;
-    private Integer year;
 
+    @NotBlank(message = "{carmodel.name.notblank}")
+    @Size(min = 1, max = 25, message = "{carmodel.name.size}")
+    private String name;
+
+    private Integer carYear;
+
+    @NotNull(message = "{carmodel.carbrand.notnull}")
     @ManyToOne
-    @JoinColumn(name = "car_brand_id")
-    private CarBrand carBrand;
+    @JoinColumn(name = "brand_id")
+    private CarBrand brand;
 
     // Konstruktor bezargumentowy
     public CarModel() {
@@ -35,19 +43,19 @@ public class CarModel {
         this.name = name;
     }
 
-    public Integer getYear() {
-        return year;
+    public Integer getCarYear() {
+        return carYear;
     }
 
-    public void setYear(Integer year) {
-        this.year = year;
+    public void setCarYear(Integer carYear) {
+        this.carYear = carYear;
     }
 
-    public CarBrand getCarBrand() {
-        return carBrand;
+    public CarBrand getBrand() {
+        return brand;
     }
 
-    public void setCarBrand(CarBrand carBrand) {
-        this.carBrand = carBrand;
+    public void setBrand(CarBrand brand) {
+        this.brand = brand;
     }
 }

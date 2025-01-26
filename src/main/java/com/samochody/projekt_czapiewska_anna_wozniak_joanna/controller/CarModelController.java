@@ -1,6 +1,8 @@
 package com.samochody.projekt_czapiewska_anna_wozniak_joanna.controller;
 
+import com.samochody.projekt_czapiewska_anna_wozniak_joanna.model.CarBrand;
 import com.samochody.projekt_czapiewska_anna_wozniak_joanna.model.CarModel;
+import com.samochody.projekt_czapiewska_anna_wozniak_joanna.service.CarBrandService;
 import com.samochody.projekt_czapiewska_anna_wozniak_joanna.service.CarModelService;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
@@ -13,22 +15,26 @@ import org.springframework.web.bind.annotation.*;
 public class CarModelController {
 
     private final CarModelService carModelService;
+    private final CarBrandService carBrandService;
 
-    public CarModelController(CarModelService carModelService) {
+    public CarModelController(CarModelService carModelService, CarBrandService carBrandService) {
         this.carModelService = carModelService;
+        this.carBrandService = carBrandService;
     }
 
     // Pobierz listę wszystkich modeli
     @GetMapping
     public String listCarModels(Model model) {
-        model.addAttribute("carmodels", carModelService.findAll());
+        model.addAttribute("carModels", carModelService.findAll());
         return "carmodels/list";  // Ścieżka do widoku listy
     }
 
     // Formularz do tworzenia nowego modelu
     @GetMapping("/create")
     public String createForm(Model model) {
-        model.addAttribute("CarModel", new CarModel());
+        model.addAttribute("carModel", new CarModel());
+        model.addAttribute("carBrands", carBrandService.findAll());
+        model.addAttribute("brand", new CarBrand());
         return "carmodels/form";  // Ścieżka do formularza
     }
 

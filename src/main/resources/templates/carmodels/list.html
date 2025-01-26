@@ -18,7 +18,7 @@
   <tr th:each="carModel : ${carModels}">
     <td th:text="${carModel.id}"></td>
     <td th:text="${carModel.name}"></td>
-    <td th:text="${carModel.carBrand.name}"></td>
+    <td th:text="${carModel.brand.name}"></td>
     <td>
       <a th:href="@{'/carmodels/delete/' + ${carModel.id}}">Usuń</a>
     </td>

@@ -5,19 +5,19 @@
 </head>
 <body>
 <h1>Dodaj Nowy Model Samochodu</h1>
-<form th:action="@{/carmodels/save}" th:object="${CarModel}" method="post">
+<form th:action="@{/carmodels/save}" th:object="${carModel}" method="post">
     <label for="name">Nazwa Modelu:</label>
     <input type="text" id="name" th:field="*{name}" placeholder="Wprowadź nazwę modelu" required/>
     <br/>
     <label for="carBrand">Marka:</label>
-    <select id="carBrand" th:field="*{carBrand.id}" required>
+    <select id="carBrand" th:field="*{brand.id}" required>
         <option th:each="carBrand : ${carBrands}"
                 th:value="${carBrand.id}"
                 th:text="${carBrand.name}">
         </option>
     </select>
     <br/>
-    <button type="submit">Zapisz</button>
+    <input type="submit" value="Zapisz"/>
 </form>
 <a href="/carmodels">Powrót do listy modeli samochodów</a>
 </body>
